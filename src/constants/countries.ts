@@ -9,7 +9,6 @@ const countries = new Map([
     ["gb", {id: 'gb', name: 'United Kingdom', source: 'CarbonIntensity'}], 
     ["ie", {id: 'ie', name: 'Ireland', source: 'CarbonAware'}], 
     ["in", {id: 'in', name: 'India', source: 'CarbonAware'}], 
-    ["in", {id: 'in', name: 'India', source: 'CarbonAware'}], 
     ["jp", {id: 'jp', name: 'Japan', source: 'CarbonAware'}], 
     ["ko", {id: 'ko', name: 'South Korea', source: 'CarbonAware'}], 
     ["nl", {id: 'nl', name: 'Netherlands', source: 'CarbonAware'}], 
