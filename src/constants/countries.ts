@@ -11,7 +11,7 @@ const countries = new Map([
     ["in", {id: 'in', name: 'India', source: 'CarbonAware'}], 
     ["in", {id: 'in', name: 'India', source: 'CarbonAware'}], 
     ["jp", {id: 'jp', name: 'Japan', source: 'CarbonAware'}], 
-    ["kr", {id: 'kr', name: 'South Korea', source: 'CarbonAware'}], 
+    ["ko", {id: 'ko', name: 'South Korea', source: 'CarbonAware'}], 
     ["nl", {id: 'nl', name: 'Netherlands', source: 'CarbonAware'}], 
     ["no", {id: 'no', name: 'Norway', source: 'CarbonAware'}], 
     ["se", {id: 'se', name: 'Sweden', source: 'CarbonAware'}], 
