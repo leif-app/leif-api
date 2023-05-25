@@ -1,3 +1,5 @@
 name = "leif-api"
-compatibility_date = "2023-01-01"
+compatibility_date = "2023-05-12"
 main = "src/index.ts"
+
+routes = ["leif.support/api*"]

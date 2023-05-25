@@ -15,11 +15,11 @@ app.get(
   })
 );
 
-app.get("/", async (c) => {
+app.get("/api", async (c) => {
   return c.text("Welcome to the Leif API");
 });
 
-app.get("/forecast", async (c) => {
+app.get("/api/forecast", async (c) => {
   const regionID = c.req.query("region");
   const [countryID] = c.req.query("region")?.split("-") || "";
 
@@ -47,17 +47,17 @@ app.get("/forecast", async (c) => {
   }
 });
 
-app.get("/countries", async (c) => {
+app.get("/api/countries", async (c) => {
   return c.json({
     data: Object.fromEntries(countries),
   });
 });
 
-app.get("/regions", async (c) => {
+app.get("/api/regions", async (c) => {
   const country = c.req.query("country");
 
   // Return everything if no country is passed
-  if (typeof country !== "string") {
+  if (!country) {
     return c.json({
       data: Object.fromEntries(regions),
     });
