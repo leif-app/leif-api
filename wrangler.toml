@@ -3,3 +3,6 @@ compatibility_date = "2023-05-12"
 main = "src/index.ts"
 
 routes = ["leif.support/api*"]
+
+[vars]
+TZ = "UTC"

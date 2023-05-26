@@ -1,7 +1,10 @@
-import { DateTime } from "luxon";
+import { addMinutes } from "date-fns";
 
 import { intensityToIndex } from "../../mapping";
-import { fetchCarbonAwareForecast, fetchCarbonAwareNow } from "../carbonaware/fetch";
+import {
+  fetchCarbonAwareForecast,
+  fetchCarbonAwareNow,
+} from "../carbonaware/fetch";
 
 export const fetchCarbonAware = async (region: Region) => {
   const [forecast, now] = await Promise.all([
@@ -10,15 +13,15 @@ export const fetchCarbonAware = async (region: Region) => {
   ]);
 
   if (forecast.errors) {
-    return { error: "upstream_error", };
+    return { error: "upstream_error" };
   }
 
   return {
     data: {
       regionID: region.id,
       name: region.name,
-      from: DateTime.utc().toISO(),
-      to: DateTime.utc().plus({ minutes: 10 }).toISO(),
+      from: new Date().toISOString(),
+      to: addMinutes(new Date(), 10).toISOString(),
       optimal: {
         intensity: forecast[0].optimalDataPoints[0].value,
         index: intensityToIndex(forecast[0].optimalDataPoints[0].value),

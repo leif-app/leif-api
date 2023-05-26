@@ -1,14 +1,14 @@
-import { DateTime } from "luxon";
+import { addHours, addMinutes, startOfHour, startOfMinute } from "date-fns/fp";
 
 type CarbonAwareNowResponse = {
   rating: number;
 };
 
-const HOST = 'https://carbon-aware-api.azurewebsites.net';
+const HOST = "https://carbon-aware-api.azurewebsites.net";
 
 export const fetchCarbonAwareForecast = async (region: Region) => {
-  const start = DateTime.utc().startOf("hour").plus({ hour: 1 }).toISO() || "";
-  const end = DateTime.utc().startOf("hour").plus({ hour: 2 }).toISO() || "";
+  const start = addHours(1, startOfHour(new Date())).toISOString();
+  const end = addHours(2, startOfHour(new Date())).toISOString();
   const request = await fetch(
     `${HOST}/emissions/forecasts/current?location=${
       region.externalID
@@ -22,14 +22,12 @@ export const fetchCarbonAwareForecast = async (region: Region) => {
 
 export const fetchCarbonAwareNow = async (
   region: Region,
-  prevStart?: DateTime
+  prevStart?: Date
 ): Promise<CarbonAwareNowResponse[]> => {
-  const start =
-    (prevStart
-      ? prevStart.plus({ minutes: -10 }).toISO()
-      : DateTime.utc().startOf("minute").plus({ minutes: -10 }).toISO()) || "";
-  const end =
-    DateTime.utc().startOf("minute").plus({ minutes: -1 }).toISO() || "";
+  const start = prevStart
+    ? addMinutes(-10, prevStart).toISOString()
+    : addMinutes(-10, startOfMinute(new Date())).toISOString();
+  const end = addMinutes(-1, startOfMinute(new Date())).toISOString();
 
   const request = await fetch(
     `${HOST}/emissions/bylocation?location=${
@@ -43,5 +41,5 @@ export const fetchCarbonAwareNow = async (
   }
 
   // Get the last known value in 10 minute increments.
-  return fetchCarbonAwareNow(region, DateTime.fromISO(start));
+  return fetchCarbonAwareNow(region, new Date(start));
 };

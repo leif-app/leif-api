@@ -1,4 +1,4 @@
-import { DateTime } from "luxon";
+import { addMinutes } from "date-fns";
 
 import { intensityToIndex } from "../../mapping";
 import { fetchFromProvider } from "./fetch";
@@ -27,8 +27,8 @@ export const fetchCarbonIntensity = async (region: Region) => {
     data: {
       regionID: region.id,
       name: region.name,
-      from: DateTime.utc().toISO(),
-      to: DateTime.utc().plus({ minutes: 10 }).toISO(),
+      from: new Date().toISOString(),
+      to: addMinutes(new Date(), 10).toISOString(),
       optimal: {
         intensity: optimal.intensity.forecast,
         index: intensityToIndex(optimal.intensity.forecast),
