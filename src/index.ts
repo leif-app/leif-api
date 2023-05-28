@@ -4,6 +4,9 @@ import { cache } from "hono/cache";
 import countries from "./constants/countries";
 import regions from "./constants/regions";
 import { fetchCarbonAware, fetchCarbonIntensity } from "./helpers/api";
+import { test } from "./providers/entsoe";
+import consumption from "./providers/entsoe/consumption";
+import generation from "./providers/entsoe/generation";
 
 const app = new Hono();
 
@@ -50,6 +53,27 @@ app.get("/api/forecast", async (c) => {
 app.get("/api/countries", async (c) => {
   return c.json({
     data: Object.fromEntries(countries),
+  });
+});
+
+app.get("/api/entsoe", async (c) => {
+  const data = await test(c.env?.ENTSOE_TOKEN);
+  return c.json({
+    data,
+  });
+});
+
+app.get("/api/entsoe/consumption", async (c) => {
+  const data = await consumption(c.env?.ENTSOE_TOKEN);
+  return c.json({
+    data,
+  });
+});
+
+app.get("/api/entsoe/generation", async (c) => {
+  const data = await generation(c.env?.ENTSOE_TOKEN);
+  return c.json({
+    data,
   });
 });
 

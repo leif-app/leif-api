@@ -1,6 +1,6 @@
 import { addMinutes } from "date-fns";
 
-import { intensityToIndex } from "../../mapping";
+import { intensityToIndex } from "../../helpers/mapping";
 import { fetchFromProvider } from "./fetch";
 
 type Point = {

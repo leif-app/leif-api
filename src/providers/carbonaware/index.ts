@@ -1,10 +1,10 @@
 import { addMinutes } from "date-fns";
 
-import { intensityToIndex } from "../../mapping";
+import { intensityToIndex } from "../../helpers/mapping";
 import {
   fetchCarbonAwareForecast,
   fetchCarbonAwareNow,
-} from "../carbonaware/fetch";
+} from "./fetch";
 
 export const fetchCarbonAware = async (region: Region) => {
   const [forecast, now] = await Promise.all([
