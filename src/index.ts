@@ -5,46 +5,41 @@ import countries from "./constants/countries";
 import regions from "./constants/regions";
 import { fetchCarbonAware, fetchCarbonIntensity } from "./helpers/api";
 import { test } from "./providers/entsoe";
-import consumption from "./providers/entsoe/consumption";
-import generation from "./providers/entsoe/generation";
+import validateRegion from "./helpers/validation/region";
 
 const app = new Hono();
 
-app.get(
-  "*",
-  cache({
-    cacheName: "api",
-    cacheControl: "max-age=600", // 10 minutes
-  })
-);
+// app.get(
+//   "*",
+//   cache({
+//     cacheName: "api",
+//     cacheControl: "max-age=600", // 10 minutes
+//   })
+// );
 
 app.get("/api", async (c) => {
   return c.text("Welcome to the Leif API");
 });
 
 app.get("/api/forecast", async (c) => {
-  const regionID = c.req.query("region");
-  const [countryID] = c.req.query("region")?.split("-") || "";
+  const result = validateRegion(c);
 
-  if (!countryID || !regionID) {
-    return c.json({ error: "invalid_region_id" });
+  if (!result.success || !result.data) {
+    return c.json(result);
   }
 
-  const country = countries.get(countryID);
-
-  const region = regions.get(countryID)?.filter((item) => {
-    return item.id === regionID;
-  })[0];
-
-  if (!region) {
-    return c.json({ error: "invalid_region" }, 400);
-  }
-
-  switch (country?.source) {
+  switch (result.data.country?.source) {
     case "CarbonAware":
-      return c.json(await fetchCarbonAware(region));
+      return c.json(await fetchCarbonAware(result.data.region));
     case "CarbonIntensity":
-      return c.json(await fetchCarbonIntensity(region));
+      return c.json(await fetchCarbonIntensity(result.data.region));
+    case "ENTSOE":
+      return c.json(
+        await test({
+          token: c.env?.ENTSOE_TOKEN,
+          territory: result.data.region,
+        })
+      );
     default:
       return c.json({ error: "missing_source" }, 500);
   }
@@ -53,27 +48,6 @@ app.get("/api/forecast", async (c) => {
 app.get("/api/countries", async (c) => {
   return c.json({
     data: Object.fromEntries(countries),
-  });
-});
-
-app.get("/api/entsoe", async (c) => {
-  const data = await test(c.env?.ENTSOE_TOKEN);
-  return c.json({
-    data,
-  });
-});
-
-app.get("/api/entsoe/consumption", async (c) => {
-  const data = await consumption(c.env?.ENTSOE_TOKEN);
-  return c.json({
-    data,
-  });
-});
-
-app.get("/api/entsoe/generation", async (c) => {
-  const data = await generation(c.env?.ENTSOE_TOKEN);
-  return c.json({
-    data,
   });
 });
 

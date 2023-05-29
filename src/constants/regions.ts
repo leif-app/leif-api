@@ -20,7 +20,8 @@ const regions = new Map([
     }]],
     ["de", [
         {id: "de-germanywest", name: "Frankfurt", externalID: "germanywestcentral"},
-        {id: "de-germanynorth", name: "Berlin", externalID: "germanynorth"}
+        {id: "de-germanynorth", name: "Berlin", externalID: "germanynorth"},
+        {id: "de-germany", name: "Germany", externalID: "Germany (DE)"},
     ]],
     ["fr", [
         {id: "fr-francecentral", name: "Paris", externalID: "francecentral"},

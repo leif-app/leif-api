@@ -4,7 +4,7 @@ const countries = new Map([
     ["br", {id: 'br', name: 'Brazil', source: 'CarbonAware'}], 
     ["ca", {id: 'ca', name: 'Canada', source: 'CarbonAware'}], 
     ["ch", {id: 'ch', name: 'Switzerland', source: 'CarbonAware'}], 
-    ["de", {id: 'de', name: 'Germany', source: 'CarbonAware'}], 
+    ["de", {id: 'de', name: 'Germany', source: 'ENTSOE'}], 
     ["fr", {id: 'fr', name: 'France', source: 'CarbonAware'}], 
     ["gb", {id: 'gb', name: 'United Kingdom', source: 'CarbonIntensity'}], 
     ["ie", {id: 'ie', name: 'Ireland', source: 'CarbonAware'}], 

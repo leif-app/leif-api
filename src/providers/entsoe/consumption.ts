@@ -1,6 +1,6 @@
 import { QueryGL, Area, DocumentType, ProcessType } from "entsoe-api-client";
 
-const test = async (token) => {
+const test = async ({ token, territory }) => {
   // Prepare dates
   const dateToday = new Date(),
     dateTomorrow = new Date();
@@ -14,7 +14,7 @@ const test = async (token) => {
   const consumption = await QueryGL(token, {
     documentType: DocumentType("System total load") || "",
     processType: ProcessType("Day ahead"),
-    outBiddingZoneDomain: Area("Germany (DE)"),
+    outBiddingZoneDomain: Area(territory.externalID),
     startDateTime: dateToday, // Start date
     endDateTime: dateTomorrow, // End date
   });
