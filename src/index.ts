@@ -4,7 +4,7 @@ import { cache } from "hono/cache";
 import countries from "./constants/countries";
 import regions from "./constants/regions";
 import { fetchCarbonAware, fetchCarbonIntensity } from "./helpers/api";
-import { test } from "./providers/entsoe";
+import { fetchENTSOE } from "./providers/entsoe";
 import validateRegion from "./helpers/validation/region";
 
 const app = new Hono();
@@ -35,7 +35,7 @@ app.get("/api/forecast", async (c) => {
       return c.json(await fetchCarbonIntensity(result.data.region));
     case "ENTSOE":
       return c.json(
-        await test({
+        await fetchENTSOE({
           token: c.env?.ENTSOE_TOKEN,
           territory: result.data.region,
         })

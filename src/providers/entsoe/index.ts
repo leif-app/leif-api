@@ -20,7 +20,7 @@ import fetchConsumption from "./consumption";
  *
  */
 
-export const test = async ({ territory, token }) => {
+export const fetchENTSOE = async ({ territory, token }) => {
   // MAW = 1 Megawatt = 1000 Kilowatts
 
   console.log({ territory, token });

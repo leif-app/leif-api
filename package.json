@@ -6,7 +6,7 @@
   "dependencies": {
     "@flatten-js/interval-tree": "^1.0.20",
     "date-fns": "^2.30.0",
-    "entsoe-api-client": "^0.9.6",
+    "entsoe-api-client": "^1.0.0",
     "hono": "^3.2.1"
   },
   "devDependencies": {
