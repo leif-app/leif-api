@@ -16,7 +16,12 @@ type ContextVariables = {
   db: DrizzleD1Database
 }
 
-const app = new Hono<{ Variables: ContextVariables }>();
+type Bindings = {
+  DB: D1Database
+  ENTSOE_TOKEN: string
+}
+
+const app = new Hono<{  Bindings: Bindings, Variables: ContextVariables }>();
 
 app.get(
   "*",
@@ -33,7 +38,6 @@ async function injectDB(context: Context, next: Function) {
 }
 
 app.use('*', injectDB);
-
 
 app.get("/", async (c) => {
   return c.text("Welcome to the Leif API");
