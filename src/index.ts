@@ -1,13 +1,22 @@
-import { Hono } from "hono";
 import { cache } from "hono/cache";
+import { drizzle } from 'drizzle-orm/d1';
+import { Hono } from "hono";
+
+import type { Context } from 'hono';
+import type { DrizzleD1Database } from 'drizzle-orm/d1';
 
 import countries from "./constants/countries";
 import regions from "./constants/regions";
 import { fetchCarbonAware, fetchCarbonIntensity } from "./helpers/api";
 import { fetchENTSOE } from "./providers/entsoe";
 import validateRegion from "./helpers/validation/region";
+import { carbon } from './schema';
 
-const app = new Hono();
+type ContextVariables = {
+  db: DrizzleD1Database
+}
+
+const app = new Hono<{ Variables: ContextVariables }>();
 
 app.get(
   "*",
@@ -17,8 +26,44 @@ app.get(
   })
 );
 
+async function injectDB(context: Context, next: Function) {
+	const db = drizzle(context.env.DB);
+	context.set('db', db);
+  await next()
+}
+
+app.use('*', injectDB);
+
+
 app.get("/", async (c) => {
   return c.text("Welcome to the Leif API");
+});
+
+app.get("/carbon", async (c) => {
+  const db = c.get('db');
+  const query = await db.select().from(carbon);
+  const result = await query.all();
+  console.log('result', result)
+  return c.json(result);
+});
+
+app.post("/carbon", async (c) => {
+  const db = c.get('db');
+  const body = await c.req.json();
+  const { amount, user_id } = body;
+  const time_from = new Date().toISOString()
+  const time_to = new Date().toISOString()
+  const created_at = new Date().toISOString()
+  const inserted = await db.insert(carbon).values({
+    amount,
+    user_id,
+    time_from,
+    time_to,
+    created_at,
+  }).returning();
+  console.log('inserted', inserted)
+  const result = await inserted.all()
+  return c.json(result[0]);
 });
 
 app.get("/forecast", async (c) => {

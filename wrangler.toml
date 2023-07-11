@@ -7,6 +7,11 @@ routes = [{ pattern = "api.leif.support", custom_domain = true }]
 [vars]
 TZ = "UTC"
 
+[[d1_databases]]
+binding = "DB"
+database_name = "leif"
+database_id = "7b9842dd-e19b-4019-a86c-3f403d6dfc14"
+
 # The necessary secrets are:
 # - ENTSOE_TOKEN
 # Run `echo <VALUE> | wrangler secret put <NAME>` for each of these

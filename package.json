@@ -1,16 +1,20 @@
 {
   "scripts": {
-    "dev": "wrangler dev --minify src/index.ts",
-    "deploy": "wrangler deploy --minify src/index.ts"
+    "dev": "export NO_D1_WARNING=true && wrangler dev --minify src/index.ts",
+    "deploy": "export NO_D1_WARNING=true && wrangler deploy --minify src/index.ts",
+    "db:generate": "drizzle-kit generate:sqlite --schema=src/schema.ts --out=migrations",
+    "db:migrate": "export NO_D1_WARNING=true && wrangler d1 migrations apply leif"
   },
   "dependencies": {
     "@flatten-js/interval-tree": "^1.0.20",
     "date-fns": "^2.30.0",
+    "drizzle-orm": "^0.27.1",
     "entsoe-api-client": "^1.0.0",
     "hono": "^3.2.1"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20221111.1",
+    "drizzle-kit": "^0.19.3",
     "wrangler": "^3.0.0"
   }
 }
