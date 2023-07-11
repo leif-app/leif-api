@@ -8,8 +8,8 @@ export const users = sqliteTable('users', {
 	team_id: integer('team_id').notNull(),
 	org_id: integer('org_id').notNull(),
     roles: text('roles').notNull(),
-    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
-    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
+    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
     last_reading_at: text('last_reading_at').notNull(),
 });
 
@@ -25,15 +25,15 @@ export const carbon = sqliteTable('carbon', {
 export const teams = sqliteTable('teams', {
     id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
 	name: text('name').notNull(),
-    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
-    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
+    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
     last_reading_at: text('last_reading_at').notNull(),
 });
 
 export const organisations = sqliteTable('organisations', {
     id: integer('id', { mode: 'number' }).primaryKey({ autoIncrement: true }),
 	name: text('name').notNull(),
-    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
-    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`).notNull(),
+    created_at: text('created_at').default(sql`CURRENT_TIMESTAMP`),
+    updated_at: text('updated_at').default(sql`CURRENT_TIMESTAMP`),
     last_reading_at: text('last_reading_at').notNull(),
 });

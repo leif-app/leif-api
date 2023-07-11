@@ -56,14 +56,10 @@ app.post("/carbon", async (c) => {
   const body = await c.req.json();
   const { amount, user_id } = body;
   const time_from = new Date().toISOString()
-  const time_to = new Date().toISOString()
-  const created_at = new Date().toISOString()
   const inserted = await db.insert(carbon).values({
     amount,
     user_id,
     time_from,
-    time_to,
-    created_at,
   }).returning();
   console.log('inserted', inserted)
   const result = await inserted.all()
