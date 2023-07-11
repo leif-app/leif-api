@@ -9,19 +9,19 @@ import validateRegion from "./helpers/validation/region";
 
 const app = new Hono();
 
-// app.get(
-//   "*",
-//   cache({
-//     cacheName: "api",
-//     cacheControl: "max-age=600", // 10 minutes
-//   })
-// );
+app.get(
+  "*",
+  cache({
+    cacheName: "api",
+    cacheControl: "max-age=600", // 10 minutes
+  })
+);
 
-app.get("/api", async (c) => {
+app.get("/", async (c) => {
   return c.text("Welcome to the Leif API");
 });
 
-app.get("/api/forecast", async (c) => {
+app.get("/forecast", async (c) => {
   const result = validateRegion(c);
 
   if (!result.success || !result.data) {
@@ -45,13 +45,13 @@ app.get("/api/forecast", async (c) => {
   }
 });
 
-app.get("/api/countries", async (c) => {
+app.get("/countries", async (c) => {
   return c.json({
     data: Object.fromEntries(countries),
   });
 });
 
-app.get("/api/regions", async (c) => {
+app.get("/regions", async (c) => {
   const country = c.req.query("country");
 
   // Return everything if no country is passed

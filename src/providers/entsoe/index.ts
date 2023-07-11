@@ -23,8 +23,6 @@ import fetchConsumption from "./consumption";
 export const fetchENTSOE = async ({ territory, token }) => {
   // MAW = 1 Megawatt = 1000 Kilowatts
 
-  console.log({ territory, token });
-
   const [generation, consumption] = await Promise.all([
     await fetchGeneration({ territory, token }),
     await fetchConsumption({ territory, token }),
@@ -97,11 +95,11 @@ export const fetchENTSOE = async ({ territory, token }) => {
   let generationToKwH = [[0]];
   generationTree.search([Date.now(), Date.now()], (interval) => {
     fuels = Object.keys(interval.fuels).map((k) => {
-      return fuelIntensities.get(territory).get(k) * 1000;
+      return (fuelIntensities.get(territory)?.get(k) || 0) * 1000;
     });
 
     generationToKwH = Object.keys(interval.fuels).map((k) => {
-      return [interval.fuels[k] || 0 * 1000];
+      return [(interval.fuels[k] || 0) * 1000];
     });
   })[0];
 

@@ -2,7 +2,7 @@ name = "leif-api"
 compatibility_date = "2023-05-12"
 main = "src/index.ts"
 
-routes = ["leif.support/api*"]
+routes = [{ pattern = "api.leif.support", custom_domain = true }]
 
 [vars]
 TZ = "UTC"
